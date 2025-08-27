@@ -1,0 +1,55 @@
+5. Write a program for the evaluation of a Postfix expression. 
+
+
+#include <iostream>
+#include <stack>
+#include <cctype>
+using namespace std;
+
+int a(int a, int b, char op) {
+    switch(op) {
+        case '+': return a + b;
+        case '-': return a - b;
+        case '*': return a * b;
+        case '/': return a / b;
+        case '^': {
+            int res = 1;
+            for(int i=0; i<b; i++) res *= a;
+            return res;
+        }
+    }
+    return 0;
+}
+
+
+int Postfix(string expr) {
+    stack<int> s;
+
+    for (char c : expr) {
+        if (isdigit(c)) {
+            s.push(c - '0');   
+        }
+        else {
+            int val2 = s.top(); s.pop();
+            int val1 = s.top(); s.pop();
+            int res = a(val1, val2, c);
+            s.push(res);
+        }
+    }
+    return s.top();
+}
+
+int main() {
+    string expr;
+    cout << "Enter postfix expression: ";
+    cin >> expr;
+
+    int result = Postfix(expr);
+    cout << "Result: " << result << endl;
+
+    return 0;
+}
+
+      
+        
+  
