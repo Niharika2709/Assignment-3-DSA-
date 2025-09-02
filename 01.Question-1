@@ -1,75 +1,68 @@
 1. Develop a menu driven program demonstrating the following operations on a Stack using array: (i) push(), (ii) pop(), (iii) isEmpty(), (iv) isFull(), (v) display(), and (vi) peek(). 
 
-
 #include <iostream>
+#include <stack>
 using namespace std;
 
-struct Node {
-    int data;
-    Node* next;
-};
-
-class Stack {
-    Node* top;
-public:
-    Stack() { top = NULL; }
-
-    int isEmpty() { return top == NULL; }
-
-    int isFull() {
-        Node* t = new(nothrow) Node;
-        if (!t) return 1;  // memory not available
-        delete t;
-        return 0;
-    }
-
-    void push(int x) {
-        if (isFull()) cout << "Overflow!\n";
-        else {
-            Node* n = new Node;
-            n->data = x; n->next = top;
-            top = n;
-            cout << x << " pushed\n";
-        }
-    }
-
-    void pop() {
-        if (isEmpty()) cout << "Underflow!\n";
-        else {
-            cout << top->data << " popped\n";
-            Node* t = top; top = top->next; delete t;
-        }
-    }
-
-    void peek() {
-        if (isEmpty()) cout << "Stack empty\n";
-        else cout << "Top: " << top->data << "\n";
-    }
-
-    void display() {
-        if (isEmpty()) cout << "Stack empty\n";
-        else {
-            cout << "Stack: ";
-            for (Node* t = top; t; t = t->next) cout << t->data << " ";
-            cout << "\n";
-        }
-    }
-};
-
 int main() {
-    Stack s; int ch, v;
-    do {
-        cout << "\n1.Push 2.Pop 3.isEmpty 4.isFull 5.Display 6.Peek 7.Exit\nChoice: ";
-        cin >> ch;
-        switch(ch) {
-            case 1: cout << "Enter value: "; cin >> v; s.push(v); break;
-            case 2: s.pop(); break;
-            case 3: cout << (s.isEmpty() ? "Empty\n" : "Not empty\n"); break;
-            case 4: cout << (s.isFull() ? "Full\n" : "Not full\n"); break;
-            case 5: s.display(); break;
-            case 6: s.peek(); break;
-            case 7: cout << "Exiting\n"; break;
-            default: cout << "Invalid!\n";
+    stack<int> s;  
+    int choice, value;
+
+    while (true) {
+        cout << "\n Stack Menu \n";
+        cout << "1. Push\n";
+        cout << "2. Pop\n";
+        cout << "3. isEmpty\n";
+        cout << "4. Display Size\n";
+        cout << "5. Peek (Top)\n";
+        cout << "6. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter value to push: ";
+                cin >> value;
+                s.push(value);
+                cout << value << " pushed to stack\n";
+                break;
+
+            case 2:
+                if (s.empty()) {
+                    cout << "Stack Underflow! Cannot pop\n";
+                } else {
+                    cout << s.top() << " pop from stack\n";
+                    s.pop();
+                }
+                break;
+
+            case 3:
+                if (s.empty())
+                    cout << "Stack is Empty\n";
+                else
+                    cout << "Stack is not Empty\n";
+                break;
+
+            case 4:
+                cout << "Current stack size: " << s.size() << endl;
+                break;
+
+            case 5:
+                if (s.empty())
+                    cout << "Stack is empty, no top element\n";
+                else
+                    cout << "Top element is: " << s.top() << endl;
+                break;
+
+            case 6:
+                cout << "Exiting...\n";
+                return 0;
+
+            default:
+                cout << "Invalid choice! Try again.\n";
         }
-    } while(ch != 7);
+    }
+
+    return 0;
 }
+
